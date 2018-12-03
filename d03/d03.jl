@@ -1,4 +1,4 @@
-function parse_patch(p)
+function parse_patch(p::String)
   rx = r"^#(\d+)\s@\s(\d+),(\d+):\s(\d+)x(\d+)$"
   m = match(rx, p)
   pp = parse.(Int32, m.captures)

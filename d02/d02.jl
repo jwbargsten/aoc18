@@ -1,21 +1,4 @@
 using Test
-# d = Dict{Int64,Bool}(0 => true)
-# shift = 0
-# while true
-  # open("input/input") do f
-      # for l in eachline(f)
-          # global shift
-          # shift += parse(Int64,l)
-          # if haskey(d, shift)
-            # println(shift)
-            # exit()
-          # else
-            # d[shift] = true
-          # end
-      # end
-  # end
-# end
-
 function chksum(box_ids)
   n2 = 0
   n3 = 0
@@ -53,64 +36,67 @@ function cnt_letters(id)
   return ret
 end
 
-ret = cnt_letters("abcdefgh")
+function teststuff()
 
-@test    0 == cnt_letters("abcdef")
-@test    5 == cnt_letters("bababc")
-@test    2 == cnt_letters("abbcde")
-@test    3 == cnt_letters("abcccd")
-@test    2 == cnt_letters("aabcdd")
-@test    2 == cnt_letters("abcdee")
-@test    3 == cnt_letters("ababab")
+  ret = cnt_letters("abcdefgh")
+
+  @test 0 == cnt_letters("abcdef")
+  @test 5 == cnt_letters("bababc")
+  @test 2 == cnt_letters("abbcde")
+  @test 3 == cnt_letters("abcccd")
+  @test 2 == cnt_letters("aabcdd")
+  @test 2 == cnt_letters("abcdee")
+  @test 3 == cnt_letters("ababab")
 
 
-t = [ "abcdef",
-      "bababc",
-      "abbcde",
-      "abcccd",
-      "aabcdd",
-      "abcdee",
-      "ababab",
-      ]
-@test chksum(t) == 12
-
-l = []
-open("in/test") do f
-  global l
-  l = readlines(f)
+  t = [ "abcdef",
+        "bababc",
+        "abbcde",
+        "abcccd",
+        "aabcdd",
+        "abcdee",
+        "ababab",
+        ]
+  @test chksum(t) == 12
 end
 
-println(l)
-println(chksum(l))
+function first_part()
+  l = open("in/test") do f
+    readlines(f)
+  end
 
-open("in/input") do f
-  global l
-  l = readlines(f)
+  return chksum(l)
 end
 
-println(chksum(l))
+function second_part()
 
-for x in l, y in l
-  ndiff = 0
-  diff = ""
-  diffidx = -1
-  for i in eachindex(x)
-    if x[i] != y[i]
-      ndiff += 1
-      diff = x[i]
-      diffidx = i
-    end
-    if ndiff > 1
-      break
+  l = open("in/input") do f
+    readlines(f)
+  end
+
+  for i in 1:(length(l)-1)
+    x = l[i]
+    for j in (i+1):length(l)
+      y = l[j]
+      ndiff = 0
+      diff = ""
+      diffidx = -1
+      for k in eachindex(x)
+        if x[k] != y[k]
+          ndiff += 1
+          diff = x[k]
+          diffidx = k
+        end
+        if ndiff > 1
+          break
+        end
+      end
+      if ndiff == 1
+        return (x,y,join(deleteat!(collect(x),diffidx)))
+      end
     end
   end
-  if ndiff == 1
-    println(x * " <=> " * y)
-    z = deleteat!(collect(x),diffidx)
-    println(join(z))
-  end
 end
 
-
-    
-  
+println("checksum is $(first_part())")
+println("identical chars are $(second_part()[3])")
