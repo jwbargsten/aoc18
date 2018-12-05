@@ -1,4 +1,4 @@
-function react_as_fast_as_tectonic_plates_drift_apart()
+function react_as_fast_as_tectonic_plates_drift_apart(polymer)
 
   np = polymer
   while true
@@ -24,7 +24,7 @@ function react_as_fast_as_tectonic_plates_drift_apart()
     end
     np = nptmp
   end
-  println("np: $(length(np))")
+  return length(np)
 end
 # this is too slow, but keep it for reference:
 # to remind me of never doing this again
