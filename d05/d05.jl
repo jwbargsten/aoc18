@@ -51,7 +51,7 @@ end
 
 function second_part(polymer)
   units = unique(collect(lowercase(polymer)))
-  sizes = map(u -> react(replace(replace(polymer, string(lowercase(u)) => ""), string(uppercase(u)) => "")), units)
+  sizes = map(u -> react(reduce(replace, [ lowercase(u) => "", uppercase(u) => "" ], init=polymer)), units)
   min = findmin(sizes)
   println("$(units[min[2]]) had a big impact, removing it resulted in length $(min[1])")
 end
