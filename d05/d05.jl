@@ -1,9 +1,4 @@
-function foo1()
-  polymer = open("in/input") do f
-    return readline(f)
-  end
-
-  #polymer = "dabAcCaCBAcCcaDA"
+function react_as_fast_as_tectonic_plates_drift_apart()
 
   np = polymer
   while true
@@ -33,7 +28,7 @@ function foo1()
 end
 # this is too slow, but keep it for reference:
 # to remind me of never doing this again
-#foo1()
+#react_as_fast_as_tectonic_plates_drift_apart()
 
 # it is better to use a stack
 function react(polymer)
@@ -54,23 +49,21 @@ function react(polymer)
   return length(stack)
 end
 
-function first_part()
-  polymer = open("in/input") do f
-    return readline(f)
-  end
-  println("reacted polymer has size $(react(polymer))")
-end
-
-first_part()
-
-function second_part()
-  polymer = open("in/input") do f
-    return readline(f)
-  end
+function second_part(polymer)
   units = unique(collect(lowercase(polymer)))
   sizes = map(u -> react(replace(replace(polymer, string(lowercase(u)) => ""), string(uppercase(u)) => "")), units)
   min = findmin(sizes)
   println("$(units[min[2]]) had a big impact, removing it resulted in length $(min[1])")
 end
 
-second_part()
+
+function foo()
+  polymer = open("in/input") do f
+    return readline(f)
+  end
+  #polymer = "dabAcCaCBAcCcaDA"
+
+  println("reacted polymer has size $(react(polymer))")
+  second_part(polymer)
+end
+foo()
