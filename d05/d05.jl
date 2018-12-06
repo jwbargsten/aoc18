@@ -1,10 +1,10 @@
-function react_as_fast_as_tectonic_plates_drift_apart(polymer)
-
+function react_iteratively(polymer)
   np = polymer
+  npb = IOBuffer(maxsize=2*length(polymer), sizehint=length(polymer), write=true)
   while true
-    npb = IOBuffer()
     i = 1
-    while i < length(np)
+    l = length(np)
+    while i < l
       if (islowercase(np[i]) && isuppercase(np[i+1]) ||
          isuppercase(np[i]) && islowercase(np[i+1])) &&
          lowercase(np[i]) == lowercase(np[i+1])
@@ -16,7 +16,7 @@ function react_as_fast_as_tectonic_plates_drift_apart(polymer)
       i += 1
     end
     if i == length(np)
-      write(npb, np[length(np)])
+      write(npb, last(np))
     end
     nptmp = String(take!(npb))
     if length(nptmp) == length(np)
@@ -28,10 +28,9 @@ function react_as_fast_as_tectonic_plates_drift_apart(polymer)
 end
 # this is too slow, but keep it for reference:
 # to remind me of never doing this again
-#react_as_fast_as_tectonic_plates_drift_apart()
 
 # it is better to use a stack
-function react(polymer)
+function react_stack(polymer)
   stack = []
   for u in polymer
     if isempty(stack)
@@ -51,7 +50,7 @@ end
 
 function second_part(polymer)
   units = unique(collect(lowercase(polymer)))
-  sizes = map(u -> react(reduce(replace, [ lowercase(u) => "", uppercase(u) => "" ], init=polymer)), units)
+  sizes = map(u -> react_stack(reduce(replace, [ lowercase(u) => "", uppercase(u) => "" ], init=polymer)), units)
   min = findmin(sizes)
   println("$(units[min[2]]) had a big impact, removing it resulted in length $(min[1])")
 end
@@ -63,7 +62,8 @@ function foo()
   end
   #polymer = "dabAcCaCBAcCcaDA"
 
-  println("reacted polymer has size $(react(polymer))")
+  println("reacted polymer has size $(react_stack(polymer))")
   second_part(polymer)
+  println("iterative reaction $(react_iteratively(polymer))")
 end
 foo()
